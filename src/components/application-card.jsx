@@ -1,7 +1,7 @@
 import { Boxes, BriefcaseBusiness, Download, School } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import useFetch from "@/hooks/use-fetch";
-import {updateApplicationStatus } from "@/api/apiApplication";
+import {updateApplicationStatus } from "@/api/apiApplications";
 import { BarLoader } from "react-spinners";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 
