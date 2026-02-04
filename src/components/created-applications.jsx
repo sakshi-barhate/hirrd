@@ -6,10 +6,9 @@ import { BarLoader } from "react-spinners";
 import ApplicationCard from "./application-card";
 
 const CreatedApplications = () => {
+    const { user } = useUser();
 
-    const {user} = useUser();
-
-    const{
+    const {
         loading: loadingApplications,
         data: applications,
         fn: fnApplications,
@@ -21,25 +20,31 @@ const CreatedApplications = () => {
         fnApplications();
     }, []);
 
-    if(loadingApplications){
-        return(
-            <BarLoader className="mb-4" width={"100%"} color="#36d7b7"/>
+    if (loadingApplications) {
+        return (
+            <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />
         );
     }
 
-    return(
+    return (
         <div className="flex flex-col gap-2">
-            {applications.map((application) => {
-                return(
-                    <ApplicationCard 
-                    key={application.id}
-                    application={application}
-                    isCandidate
-                    />
-                );
-            })}
+            {applications && applications.length > 0 ? (
+                applications.map((application) => {
+                    return (
+                        <ApplicationCard
+                            key={application.id}
+                            application={application}
+                            isCandidate
+                        />
+                    );
+                })
+            ) : (
+                <div className="text-center py-8">
+                    <p className="text-gray-500">No applications found.</p>
+                </div>
+            )}
         </div>
     );
-}
+};
 
 export default CreatedApplications;
