@@ -28,8 +28,8 @@ const CreatedJobs = () => {
     }
 
     return(
-        <div>
-            <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {createdJobs?.length ?(
                     createdJobs.map((job)=>{
                         return <JobCard key={job.id} job={job}
@@ -38,7 +38,9 @@ const CreatedJobs = () => {
                         />
                     })
                 ):(
-                    <div>No Jobs Found</div>
+                    <div className="col-span-full text-center text-gray-500 text-sm sm:text-base lg:text-lg">
+                        No Jobs Found
+                    </div>
                 )}
             </div>
         </div>
