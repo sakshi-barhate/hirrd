@@ -17,89 +17,87 @@ const JobCard = ({
 
     const [saved, setSaved] = useState(savedInit);
 
-    const {
+     const {
         fn: fnsavedJob,
         data: savedJob,
         loading: loadingSavedJob,
-    } = useFetch(saveJob, {
-        alreadySaved: saved,
+    } = useFetch(saveJob,{
+        alreadySaved : saved,
     });
 
-    const { user } = useUser();
+    const {user} = useUser();
 
-    const handleSaveJob = async () => {
+    const handleSaveJob = async () =>{
         await fnsavedJob({
-            user_id: user.id,
-            job_id: job.id,
+            user_id:user.id,
+            job_id:job.id,
         });
         onJobSaved();
     };
 
-    const {
+    const{
         loading: loadingDeleteJob,
         fn: fnDeleteJob
     } = useFetch(deleteJob, {
         job_id: job.id,
     });
 
-    const handleDeleteJob = async () => {
+    const handleDeleteJob = async() => {
         await fnDeleteJob();
         onJobSaved();
     };
 
     useEffect(() => {
-        if (savedJob !== undefined) setSaved(savedJob?.length > 0);
-    }, [savedJob]);
+        if(savedJob !== undefined) setSaved(savedJob?.length > 0);
+    },[savedJob]);
 
-    return (
+    return(
         <Card className="flex flex-col">
             {loadingDeleteJob && (
-                <BarLoader className="mt-4" width={"100%"} color="#36d7b7" />
+                <BarLoader className="mt-4" width={"100%"} color="#36d7b7"/>
             )}
             <CardHeader>
-                <CardTitle className="flex justify-between font-bold">
-                    <span className="pr-2">{job.title}</span>
-                    {isMyJob && (
-                        <Trash2Icon
-                            fill="red"
-                            size={18}
-                            className="text-red-300 cursor-pointer"
-                            onClick={handleDeleteJob}
-                        />
-                    )}
+                <CardTitle className="flex justify-between font-bold">{job.title}
+                {isMyJob && (
+                    <Trash2Icon
+                    fill="red"
+                    size={18}
+                    className="text-red-300 cursor-pointer"
+                    onClick={handleDeleteJob}
+                    />
+                )}
                 </CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col gap-4 flex-1">
-                <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center">
-                    {job.company?.logo_url && (
-                        <img src={job.company.logo_url} className="h-6" alt="Company logo" />
-                    )}
+                <div className="flex justify-between">
+                    {job.company?.logo_url  && <img src = {job.company.logo_url} className="h-6"/>}
                     <div className="flex gap-2 items-center">
-                        <MapPinIcon size={15} /> {job.location}
+                        <MapPinIcon size={15}/> {job.location}
                     </div>
                 </div>
-                <hr />
+                <hr/>
                 {job.description.substring(0, job.description.indexOf("."))}
             </CardContent>
             <CardFooter className="flex gap-2">
                 <Link to={`/job/${job.id}`} className="flex-1">
-                    <Button variant="secondary" className="w-full">
-                        More Details
-                    </Button>
+                <Button variant="secondary" className="w-full">
+                    More Details
+                </Button>
                 </Link>
 
                 {!isMyJob && (
                     <Button
-                        variant="outline"
-                        className="w-15"
-                        onClick={handleSaveJob}
-                        disabled={loadingSavedJob}
+                    variant="outline"
+                    className="w-15"
+                    onClick={handleSaveJob}
+                    disabled={loadingSavedJob}
                     >
-                        {saved ? (
-                            <Heart size={20} stroke="red" fill="red" />
-                        ) : (
-                            <Heart size={20} />
-                        )}
+                        {saved? (
+                        <Heart size={20} stroke="red" fill="red"/>
+                ) : (
+                    <Heart size={20}/>
+                )
+                        }
                     </Button>
                 )}
             </CardFooter>

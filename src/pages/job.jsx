@@ -48,30 +48,52 @@ const JobPage = () => {
     }
   
     return (
-        <div className="flex flex-col gap-8 mt-5">
-            <div className="flex flex-col-reverse gap-6 md:flex-row justify-between items-center">
-                <h1 className="gradient-title font-extrabold pb-3 text-4xl sm:text-6xl">{job?.title}</h1>
-                <img src={job?.company?.logo_url} className="h-12" alt={job?.title}/>
+        <div className="flex flex-col gap-8 mt-5 px-4 sm:px-0">
+            {/* Logo and Title - Fixed for mobile */}
+            <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-center">
+                <div className="order-2 md:order-1 flex-1">
+                    <h1 className="gradient-title font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
+                        {job?.title}
+                    </h1>
+                </div>
+                <div className="order-1 md:order-2 flex justify-center md:justify-end">
+                    <img 
+                        src={job?.company?.logo_url} 
+                        className="h-16 sm:h-20 md:h-12 w-auto object-contain" 
+                        alt={job?.title}
+                    />
+                </div>
             </div>
 
-            <div className="flex justify-between">
-                <div className="flex gap-2">
-                    <MapPinIcon/>
-                    {job?.location}
+            {/* Mobile-friendly layout for location, status, and applicants */}
+            <div className="flex flex-col gap-3">
+                {/* First row: Location and Open/Closed status */}
+                <div className="flex justify-between items-center flex-wrap gap-2">
+                    <div className="flex gap-2 items-center">
+                        <MapPinIcon size={18} className="flex-shrink-0" />
+                        <span className="text-sm sm:text-base">{job?.location}</span>
+                    </div>
+                    <div className="flex gap-2 items-center">
+                        {job?.isOpen ? (
+                            <>
+                                <DoorOpen size={18} className="flex-shrink-0" /> 
+                                <span className="text-sm sm:text-base">Open</span>
+                            </>
+                        ) : (
+                            <>
+                                <DoorClosed size={18} className="flex-shrink-0" /> 
+                                <span className="text-sm sm:text-base">Closed</span>
+                            </>
+                        )}
+                    </div>
                 </div>
-                <div className="flex gap-2">
-                    <Briefcase/> {job?.applications?.length} Applicants
-                </div>
-                <div className="flex gap-2">
-                    {job?.isOpen ? (
-                        <>
-                            <DoorOpen/> Open
-                        </>
-                    ) : (
-                        <>
-                            <DoorClosed/> Closed
-                        </>
-                    )}
+
+                {/* Second row: Applicants */}
+                <div className="flex gap-2 items-center">
+                    <Briefcase size={18} className="flex-shrink-0" /> 
+                    <span className="text-sm sm:text-base">
+                        {job?.applications?.length} Applicant{job?.applications?.length !== 1 ? 's' : ''}
+                    </span>
                 </div>
             </div>
 
@@ -83,7 +105,7 @@ const JobPage = () => {
                     <SelectTrigger className={`w-full ${job?.isOpen ? "bg-green-950" : "bg-red-950"}`}>
                         <SelectValue 
                         placeholder={
-                            "Hiring Status" + (job?.isOpen ? "(Open)" : "(Closed)")
+                            "Hiring Status " + (job?.isOpen ? "(Open)" : "(Closed)")
                             }
                             />
                     </SelectTrigger>
@@ -103,10 +125,8 @@ const JobPage = () => {
                             </SelectItem>
                     </SelectContent>
                 </Select>
-
             )}
             
-
             <h2 className="text-2xl sm:text-3xl font-bold">About the job</h2>
             <p className="sm:text-lg">{job?.description}</p>
             
